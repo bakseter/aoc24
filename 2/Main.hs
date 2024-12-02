@@ -17,13 +17,11 @@ isDecreasing []     = True
 
 checkSafety :: [Int] -> Bool
 checkSafety l =
-    (isIncreasing l && checkSafetyIncreasing l) ||
-    (isDecreasing l && checkSafetyDecreasing l)
+    (isIncreasing l && checkSafety' l) ||
+    (isDecreasing l && checkSafety' l)
   where
-    checkSafetyIncreasing (x:y:xs) = y - x <= 3 && checkSafetyIncreasing (y:xs)
-    checkSafetyIncreasing _        = True
-    checkSafetyDecreasing (x:y:xs) = x - y <= 3 && checkSafetyDecreasing (y:xs)
-    checkSafetyDecreasing _        = True
+    checkSafety' (x:y:xs) = abs (x - y) <= 3 && checkSafety' (y:xs)
+    checkSafety' _        = True
 
 removeOneAndCheckSafety :: [Int] -> Bool
 removeOneAndCheckSafety l = any checkSafety (l : combinations)
