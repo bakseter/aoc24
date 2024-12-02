@@ -1,5 +1,7 @@
 module Main where
 
+import           Control.Arrow
+import           Control.Monad
 import           Data.List
 import           Data.Maybe
 import           System.IO
@@ -27,3 +29,8 @@ main = do
     print $ sum $ map abs $ zipWith (-) l1 l2
     -- Part 2
     print $ sum $ map (similarityScore l1) l2
+
+-- For fun :)
+-- Part 1
+oneLine :: IO ()
+oneLine = openFile "input.txt" ReadMode >>= hGetContents >>= print . sum . map abs . uncurry (zipWith (-)) . join (***) sort . unzip . mapMaybe (words >>> \[a, b] -> Just (read a, read b)) . lines
